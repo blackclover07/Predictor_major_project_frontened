@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+body {
+  background-color: #161317;
+  /* background-color: ; */
+  scroll-behavior: smooth;
+}
+.main {
+  height: auto;
+  width: 100%;
+}
+.navbar {
+  font-family: Poppins;
+  background-color: #1a161b;
+}
+
+.fun-font {
+  font-family: Funnel Display;
+}
+.pop-font {
+  font-family: Poppins;
+}
+.home-top {
+  /* background-color: #161317; */
+  font-family: Funnel Display;
+}
+.aboutCard:hover {
+  cursor: pointer;
+  box-shadow: rgba(62, 82, 192, 0.25) 0px 54px 55px,
+    rgba(44, 70, 156, 0.171) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.teams {
+  height: auto;
+  min-height: 200vh;
+  width: 100%;
+}
+.clip-Path {
+  clip-path: polygon(
+    48% 0,
+    100% 0,
+    100% 69%,
+    87% 82%,
+    100% 90%,
+    100% 100%,
+    0 100%,
+    0 0
+  );
+}
+.card-border:hover {
+  cursor: pointer;
+  box-shadow: rgba(49, 49, 73, 0.1) 0px 8px 24px,
+    rgba(102, 103, 212, 0.445) 0px 16px 56px,
+    rgba(17, 17, 26, 0.1) 0px 24px 80px;
+  transform: scale(1.05);
+  background-color: #1a161b;
+}
+.teamCard:hover {
+  cursor: pointer;
+  box-shadow: rgba(49, 49, 73, 0.1) 0px 8px 24px,
+    rgba(239, 255, 11, 0.212) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+  transform: scale(1.05);
+  background-color: #1a161b;
+}
+
+/* .r-card{
+    transition: .3s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+.r-card:hover{
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    cursor: pointer;
+} */
+
+.r-card {
+  width: 233px;
+  height: 100px;
+  background: #07182e;
+  position: relative;
+  display: flex;
+  place-content: center;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.r-card p {
+  z-index: 1;
+}
+
+.r-card::before {
+  content: "";
+  position: absolute;
+  width: 60px;
+  background-image: linear-gradient(
+    180deg,
+    rgb(0, 183, 255),
+    rgb(255, 48, 255)
+  );
+  height: 260%;
+  animation: rotBGimg 3s linear infinite;
+  transition: all 0.2s linear;
+}
+
+@keyframes rotBGimg {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.r-card::after {
+  content: "";
+  position: absolute;
+  background: #07182e;
+  inset: 5px;
+  border-radius: 15px;
+}
+.price-card{
+    clip-path: polygon(0% 0%, 100% 0, 100% 80%, 50% 100%, 0 80%);
+}
+
+
+@media (max-width: 500px) {
+  .r-card {
+    width: 300px;
+  }
+}
