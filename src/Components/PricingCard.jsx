@@ -6,35 +6,47 @@ const PricingCard = () => {
   const cards = [
     {
       title: "Regular Plan",
-      price: "0 /month",
-      features: ["Feature 1", "Feature 2", "Feature 3"],
+      price: "0",
+      period: "/month",
+      description: "Essential analytics tools for small scale operations.",
+      features: [
+        "Up to 50 active inquiries",
+        "Standard sentiment analysis",
+        "Single e-shop target pairing",
+        "24-hour response stream latency"
+      ],
       link: "/checkout/basic",
+      isPopular: false,
     },
     {
       title: "Ultra Plan",
-      price: "50 /month",
-      features: ["Feature A", "Feature B", "Feature C"],
+      price: "49",
+      period: "/month",
+      description: "Advanced intelligence arrays for pro scaling teams.",
+      features: [
+        "Infinite historical queries",
+        "Real-time fraud verification (Fake Score)",
+        "Deep multi-store price comparisons",
+        "Instant web scraper"
+      ],
       link: "/checkout/pro",
+      isPopular: true,
     },
   ];
-
-  // Container variant to handle staggered orchestration of children
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15, // Delay between each card's entry
+        staggerChildren: 0.15,
       },
     },
   };
-
-  // Card entry and hover variants
   const cardVariants = {
     hidden: { 
       opacity: 0, 
-      scale: 0.92, 
-      y: 20 
+      scale: 0.95, 
+      y: 30 
     },
     visible: { 
       opacity: 1, 
@@ -42,59 +54,112 @@ const PricingCard = () => {
       y: 0,
       transition: { 
         type: "spring", 
-        stiffness: 70, 
-        damping: 15 
+        stiffness: 80, 
+        damping: 18 
       }
     },
     hover: {
-      y: -10, // Moves up slightly on hover
-      scale: 1.03, // Slight enlargement
-      boxShadow: "0px 20px 30px rgba(0, 0, 0, 0.35)", // Deep shadow for a 3D float effect
+      y: -12,
+      scale: 1.02,
+      boxShadow: "0px 25px 50px rgba(0, 0, 0, 0.5)",
       transition: {
         type: "spring",
-        stiffness: 300,
-        damping: 20
+        stiffness: 400,
+        damping: 25
       }
     }
   };
 
   return (
-    // Parent container wraps the grid to trigger staggered entrances
-    <motion.div 
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className="flex justify-center items-center flex-wrap gap-10 p-5"
-    >
-      {cards.map((card, index) => (
-        <motion.div
-          key={index}
-          variants={cardVariants}
-          whileHover="hover"
-          className="price-card pop-font h-120 w-90 flex justify-center items-center flex-col flex-wrap text-white bg-[#303952] rounded-2xl p-6 relative cursor-pointer"
-        >
-          <h1 className="text-4xl bg-orange-400 p-3 rounded font-bold mb-5">{card.title}</h1>
+    <div className="min-h-screen w-full bg-[#0d0f12] text-gray-100 flex flex-col justify-center items-center p-6 md:p-12 selection:bg-blue-500/30">
+      <div className="text-center max-w-xl mx-auto mb-16 space-y-3">
+        <h2 className="text-xs font-bold font-mono tracking-widest text-blue-500 uppercase">
+          Pricing Framework
+        </h2>
+        <h3 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+          Flexible Plans for Every Scale
+        </h3>
+        <p className="text-sm text-gray-400">
+          Unlock high-fidelity market indicators, competitor price maps, and fraud classification models instantly.
+        </p>
+      </div>
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="w-full max-w-5xl flex justify-center items-stretch flex-wrap lg:flex-nowrap gap-8"
+      >
+        {cards.map((card, index) => (
+          <motion.div
+            key={index}
+            variants={cardVariants}
+            whileHover="hover"
+            className={`w-full max-w-sm flex flex-col justify-between text-white bg-[#14171c]/90 border rounded-3xl p-8 relative backdrop-blur-md transition-all duration-300
+              ${card.isPopular 
+                ? "border-blue-500/50 shadow-[0_4px_30px_rgba(59,130,246,0.15)]" 
+                : "border-gray-800/80 hover:border-gray-700/80"}`}
+          >
+            <div className={`absolute top-0 left-0 right-0 h-[3px] rounded-t-3xl opacity-80
+              ${card.isPopular ? "bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" : "bg-gray-700"}`} 
+            />
+            {card.isPopular && (
+              <span className="absolute top-4 right-6 text-[10px] font-bold tracking-wider uppercase font-mono bg-blue-500/10 border border-blue-500/30 text-blue-400 px-2.5 py-1 rounded-full shadow-sm">
+                Most Popular
+              </span>
+            )}
 
-          <p className="text-2xl mb-5">
-            <i className="ri-money-rupee-circle-line"></i> {card.price}
-          </p>
+            <div className="space-y-6">
+              <div>
+                <h4 className="text-xs font-bold text-gray-400 uppercase font-mono tracking-wider mb-1">
+                  {card.title}
+                </h4>
+                <p className="text-xs text-gray-500 leading-relaxed font-sans font-medium">
+                  {card.description}
+                </p>
+              </div>
 
-          <ul className="text-lg mb-5 text-center">
-            {card.features.map((feature, i) => (
-              <li key={i} className="mb-2">
-                {feature}
-              </li>
-            ))}
-          </ul>
+              <div className="flex items-baseline text-white border-b border-gray-800/60 pb-6">
+                <span className="text-2xl font-semibold mr-1 text-gray-300">₹</span>
+                <span className="text-5xl font-black tracking-tight font-sans text-white">
+                  {card.price}
+                </span>
+                <span className="text-sm font-semibold font-mono text-gray-500 ml-2">
+                  {card.period}
+                </span>
+              </div>
 
-          <Link to={card.link}>
-            <button className="bg-blue-500 text-white px-6 py-2 rounded font-medium hover:bg-blue-600 transition-colors duration-300">
-              Choose Plan
-            </button>
-          </Link>
-        </motion.div>
-      ))}
-    </motion.div>
+              <ul className="space-y-4 py-2">
+                {card.features.map((feature, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-gray-300">
+                    <div className={`mt-0.5 flex items-center justify-center h-4 w-4 rounded-full shrink-0 text-[10px]
+                      ${card.isPopular ? "bg-blue-500/10 text-blue-400 border border-blue-500/20" : "bg-gray-800 text-gray-400"}`}>
+                      <i className="ri-check-line font-bold"></i>
+                    </div>
+                    <span className="leading-tight font-medium tracking-tight">
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-8 pt-4 w-full">
+              <Link to={card.link} className="block w-full">
+                <button 
+                  className={`w-full font-semibold text-sm py-3.5 px-4 rounded-2xl transition-all duration-300 active:scale-[0.98] tracking-wide flex items-center justify-center gap-2 cursor-pointer
+                    ${card.isPopular 
+                      ? "text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-[0_4px_20px_rgba(37,99,235,0.2)]" 
+                      : "text-gray-300 bg-gray-800/80 hover:bg-gray-800 border border-gray-700/40 hover:text-white"}`}
+                >
+                  <span>Choose Package</span>
+                  <i className="ri-arrow-right-line text-sm opacity-80 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+              </Link>
+            </div>
+
+          </motion.div>
+        ))}
+      </motion.div>
+    </div>
   );
 };
 
