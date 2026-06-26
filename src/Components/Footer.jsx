@@ -20,15 +20,12 @@ const Footer = () => {
             <p className="text-white text-xl fun-top"> Stay in touch</p>
             <div className="flex text-3xl text-white gap-6 mb-4">
               <a href="">
-                
                 <i class="ri-facebook-box-fill hover:text-red-500"></i>
               </a>
               <a href="">
-                
                 <i class="ri-instagram-line hover:text-red-500"></i>
               </a>
               <a href="">
-                
                 <i class="ri-twitter-x-line hover:text-red-500"></i>
               </a>
             </div>
@@ -56,7 +53,7 @@ const Footer = () => {
             </span>
             Made by
             <Link to="/teams" className="text-blue-400 p-1">
-               Team Predictor
+              Team Predictor
             </Link>
           </p>
         </div>

@@ -1,0 +1,26 @@
+import React from "react";
+
+export default function Loader() {
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="relative">
+        <div className="relative w-32 h-32">
+          <div
+            className="absolute w-full h-full rounded-full border-[3px] border-gray-100/10 border-r-cyan-400 border-b-cyan-400 animate-spin"
+            style={{ animationDuration: "3s" }}
+          />
+
+          <div
+            className="absolute w-full h-full rounded-full border-[3px] border-gray-100/10 border-t-cyan-400 animate-spin"
+            style={{
+              animationDuration: "2s",
+              animationDirection: "reverse",
+            }}
+          />
+        </div>
+
+        <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400/10 via-transparent to-cyan-400/5 animate-pulse rounded-full blur-sm" />
+      </div>
+    </div>
+  );
+}

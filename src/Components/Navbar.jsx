@@ -53,10 +53,15 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <div className="hidden md:flex items-center">
+        <div className="hidden md:flex items-center gap-4">
           <Link to="/login">
             <button className="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-mono text-xs font-bold tracking-widest uppercase rounded-xl shadow-[0_4px_20px_rgba(59,130,246,0.2)] hover:shadow-[0_4px_25px_rgba(59,130,246,0.35)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer">
               Login
+            </button>
+          </Link>
+          <Link to="/signup">
+            <button className="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-mono text-xs font-bold tracking-widest uppercase rounded-xl shadow-[0_4px_20px_rgba(59,130,246,0.2)] hover:shadow-[0_4px_25px_rgba(59,130,246,0.35)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer">
+              Sign Up
             </button>
           </Link>
         </div>
