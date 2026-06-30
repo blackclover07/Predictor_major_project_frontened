@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 // Component layout child asset imports
 import Home_banner1 from "./Home_banner1";
 import Home_banner2 from "./Home_banner2";
 import Home_banner3 from "./Home_banner3";
 import Home_banner4 from "./Home_banner4";
-import '../index.css';
+import "../index.css";
+import { useUser } from "@clerk/react-router";
 
 // 1. HIGH-TECH MOCKUP LAYOUT CONTAINER FOR THE SCREEN LOADING PHASE
 const HomeSkeleton = () => {
@@ -16,13 +17,17 @@ const HomeSkeleton = () => {
     // Base and highlight colors tuned to sync with your cyber dark workspace palette
     <SkeletonTheme baseColor="#111419" highlightColor="#1d222a">
       <div className="w-full flex flex-col gap-16 md:gap-24 pb-24">
-        
         {/* Banner 1 Mirror: Hero Text & Canvas area */}
         <div className="w-full max-w-7xl mx-auto px-4 md:px-8 pt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="space-y-4">
             <Skeleton height={50} width="70%" borderRadius="0.75rem" />
             <Skeleton height={20} width="90%" count={2} borderRadius="0.5rem" />
-            <Skeleton height={45} width="160px" borderRadius="2rem" className="mt-4" />
+            <Skeleton
+              height={45}
+              width="160px"
+              borderRadius="2rem"
+              className="mt-4"
+            />
           </div>
           <div className="w-full">
             <Skeleton height={380} borderRadius="2rem" />
@@ -32,10 +37,15 @@ const HomeSkeleton = () => {
         {/* Banner 2 Mirror: Features Metric Block */}
         <div className="max-w-7xl mx-auto w-full px-4 md:px-8">
           <div className="bg-[#14171c]/40 border border-gray-800/40 rounded-[2.5rem] p-8 space-y-6">
-            <div className="flex justify-center"><Skeleton height={24} width="30%" /></div>
+            <div className="flex justify-center">
+              <Skeleton height={24} width="30%" />
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
               {[1, 2, 3].map((card) => (
-                <div key={card} className="p-4 bg-[#0d0f12]/40 rounded-2xl border border-gray-800/20">
+                <div
+                  key={card}
+                  className="p-4 bg-[#0d0f12]/40 rounded-2xl border border-gray-800/20"
+                >
                   <Skeleton circle width={44} height={44} className="mb-3" />
                   <Skeleton height={18} width="60%" className="mb-2" />
                   <Skeleton height={12} width="90%" count={2} />
@@ -55,7 +65,6 @@ const HomeSkeleton = () => {
             <Skeleton height={14} width="95%" count={3} />
           </div>
         </div>
-
       </div>
     </SkeletonTheme>
   );
@@ -77,16 +86,15 @@ const Home = () => {
   // Structural entrance motion adjustments
   const sectionFadeVariants = {
     hidden: { opacity: 0, y: 25 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { type: "spring", stiffness: 60, damping: 20 } 
-    }
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 60, damping: 20 },
+    },
   };
 
   return (
     <div className="min-h-screen w-full bg-[#090b0e] text-gray-100 font-sans antialiased selection:bg-blue-500/30 selection:text-blue-200 relative overflow-x-hidden">
-      
       {/* Ambient Cyber Light Blobs */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[140px] pointer-events-none z-0" />
       <div className="absolute top-[40vh] right-1/4 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-[160px] pointer-events-none z-0" />
@@ -97,13 +105,20 @@ const Home = () => {
           <HomeSkeleton />
         ) : (
           <div className="flex flex-col gap-16 md:gap-24 lg:gap-32 pb-24">
-            
-            <motion.section initial="hidden" animate="visible" variants={sectionFadeVariants} className="w-full">
+            <motion.section
+              initial="hidden"
+              animate="visible"
+              variants={sectionFadeVariants}
+              className="w-full"
+            >
               <Home_banner1 />
             </motion.section>
 
-            <motion.section 
-              initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.15 }} variants={sectionFadeVariants}
+            <motion.section
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+              variants={sectionFadeVariants}
               className="max-w-7xl mx-auto w-full"
             >
               <div className="bg-[#14171c]/40 border border-gray-800/40 rounded-[2.5rem] p-4 sm:p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden">
@@ -112,19 +127,27 @@ const Home = () => {
               </div>
             </motion.section>
 
-            <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.15 }} variants={sectionFadeVariants} className="w-full">
+            <motion.section
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+              variants={sectionFadeVariants}
+              className="w-full"
+            >
               <Home_banner3 />
             </motion.section>
 
-            <motion.section 
-              initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={sectionFadeVariants}
+            <motion.section
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={sectionFadeVariants}
               className="max-w-7xl mx-auto w-full"
             >
               <div className="bg-gradient-to-br from-[#14171c]/80 to-[#0d0f12]/90 border border-gray-800/60 rounded-[2.5rem] p-6 sm:p-12 shadow-2xl relative overflow-hidden">
                 <Home_banner4 />
               </div>
             </motion.section>
-
           </div>
         )}
       </div>

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useUser, useClerk } from "@clerk/react-router";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
   const location = useLocation();
-
+  const { user, isSignedIn } = useUser();
+  const { signOut, openUserProfile } = useClerk();
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
@@ -54,16 +57,90 @@ const Navbar = () => {
         </ul>
 
         <div className="hidden md:flex items-center gap-4">
-          <Link to="/login">
-            <button className="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-mono text-xs font-bold tracking-widest uppercase rounded-xl shadow-[0_4px_20px_rgba(59,130,246,0.2)] hover:shadow-[0_4px_25px_rgba(59,130,246,0.35)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer">
-              Login
-            </button>
-          </Link>
-          <Link to="/signup">
-            <button className="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-mono text-xs font-bold tracking-widest uppercase rounded-xl shadow-[0_4px_20px_rgba(59,130,246,0.2)] hover:shadow-[0_4px_25px_rgba(59,130,246,0.35)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer">
-              Sign Up
-            </button>
-          </Link>
+          {!isSignedIn ? (
+            <>
+              <Link to="/login">
+                <button className="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-mono text-xs font-bold tracking-widest uppercase rounded-xl shadow-[0_4px_20px_rgba(59,130,246,0.2)] hover:shadow-[0_4px_25px_rgba(59,130,246,0.35)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer">
+                  Login
+                </button>
+              </Link>
+              <Link to="/signup">
+                <button className="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-mono text-xs font-bold tracking-widest uppercase rounded-xl shadow-[0_4px_20px_rgba(59,130,246,0.2)] hover:shadow-[0_4px_25px_rgba(59,130,246,0.35)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer">
+                  Sign Up
+                </button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <div className="relative">
+                <img
+                  className="w-10 h-10
+                            rounded-full
+                            object-cover
+                            cursor-pointer
+                            border-2 border-cyan-400
+                            shadow-[0_0_8px_rgba(34,211,238,0.55),0_0_18px_rgba(59,130,246,0.45)]
+                            hover:shadow-[0_0_12px_rgba(34,211,238,0.8),0_0_28px_rgba(59,130,246,0.7)]
+                            hover:scale-110
+                            transition-all
+                            duration-300"
+                  src={user?.imageUrl}
+                  alt="User"
+                  onClick={() => setOpenProfile(!openProfile)}
+                />
+                {openProfile && (
+                  <div
+                    id="userDropdown"
+                    className="absolute right-0 top-10 w-56 text-gray-300 bg-[#15191f] border border-gray-700 rounded-xl shadow-xl z-50 overflow-hidden"
+                  >
+                    <div className="px-4 py-3 border-b border-default-medium text-sm text-heading">
+                      <div className="font-medium">{user?.fullName}</div>
+                      <div className="truncate">
+                        {user?.primaryEmailAddress.emailAddress}
+                      </div>
+                    </div>
+                    <ul
+                      className="p-2 text-sm text-body font-medium"
+                      aria-labelledby="avatarButton"
+                    >
+                      <li>
+                        <Link
+                          to="/user-profile"
+                          onClick={() => setOpenProfile(false)}
+                          className="block w-full px-3 py-2 rounded-lg text-gray-300 hover:bg-[#1b2430] hover:text-white transition-colors duration-200"
+                        >
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="block w-full px-3 py-2 rounded-lg text-gray-300 hover:bg-[#1b2430] hover:text-white transition-colors duration-200"
+                          onClick={() => {
+                            setOpenProfile(false);
+                            openUserProfile();
+                          }}
+                        >
+                          Settings
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="block w-full px-3 py-2 rounded-lg text-gray-300 hover:bg-[#d7362d] hover:text-white transition-colors duration-200"
+                          onClick={() => {
+                            signOut();
+                          }}
+                        >
+                          Sign out
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
 
         <button

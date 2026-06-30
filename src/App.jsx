@@ -18,6 +18,7 @@ import SuperAdminDashboard from "./admin/SuperAdminDashboard";
 import Admin_appLayout from "./admin/Admin_appLayout";
 import Register from "./admin/Register";
 import { ClerkProvider, SignIn } from "@clerk/react-router";
+import Profile from "./Pages/Profile";
 import SignUp from "./admin/SignUpcustom";
 import { useAuth, useUser } from "@clerk/react-router";
 import AdminRoute from "./admin/AdminRoute";
@@ -25,7 +26,8 @@ import AdminRoute from "./admin/AdminRoute";
 // 1. Import your newly created funny 404 page
 import NotFound from "./Pages/NotFound"; // Adjust this import path if you saved it in Components or another directory
 import ProtectedRoute from "./admin/ProtectedRoute";
-import { AuthProvider } from "./admin/AuthContext";
+import UserManagement from "./admin/UserManagement";
+
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
@@ -39,9 +41,7 @@ const ClerkProviderWithNavigation = () => {
       publishableKey={PUBLISHABLE_KEY}
       navigate={(to) => navigate(to)}
     >
-      <AuthProvider>
-        <Outlet />
-      </AuthProvider>
+      <Outlet />
     </ClerkProvider>
   );
 };
@@ -61,6 +61,7 @@ const App = () => {
             { path: "teams", element: <Teams /> },
             { path: "services", element: <Services /> },
             { path: "pricing", element: <Pricing /> },
+            { path: "user-profile", element: <Profile /> },
             { path: "*", element: <NotFound /> },
           ],
         },
@@ -91,6 +92,10 @@ const App = () => {
             {
               path: "addAdmin",
               element: <Register />,
+            },
+            {
+              path: "users",
+              element: <UserManagement />,
             },
             {
               path: "*",
