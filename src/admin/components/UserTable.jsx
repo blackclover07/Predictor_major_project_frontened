@@ -1,35 +1,7 @@
 import React from "react";
 import UserRow from "./UserRow";
-const users = [
-  {
-    id: 1,
-    avatar: "https://i.pravatar.cc/100?img=1",
-    name: "Tony Stark",
-    email: "tony@starkindustries.com",
-    role: "super-admin",
-    status: "Active",
-    joined: "26 Jun 2026",
-  },
-  {
-    id: 2,
-    avatar: "https://i.pravatar.cc/100?img=2",
-    name: "Steve Rogers",
-    email: "steve@avengers.com",
-    role: "admin",
-    status: "Active",
-    joined: "22 Jun 2026",
-  },
-  {
-    id: 3,
-    avatar: "https://i.pravatar.cc/100?img=3",
-    name: "Bruce Banner",
-    email: "bruce@gamma.com",
-    role: "customer",
-    status: "Inactive",
-    joined: "18 Jun 2026",
-  },
-];
-const UserTable = () => {
+
+const UserTable = ({ users, onRoleUpdated }) => {
   return (
     <section className="bg-[#0f1216] border border-gray-800/60 rounded-2xl overflow-hidden shadow-xl">
       <div className="overflow-x-auto">
@@ -67,13 +39,17 @@ const UserTable = () => {
             {users.map((user) => {
               return (
                 <UserRow
-                  key={user.id}
-                  avatar={user.avatar}
-                  name={user.name}
+                  key={user.clerk_id}
+                  avatar={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    user.full_name,
+                  )}&background=0f172a&color=ffffff`}
+                  name={user.full_name}
                   email={user.email}
                   role={user.role}
-                  status={user.status}
-                  joined={user.joined}
+                  status={user.is_active ? "Active" : "Inactive"}
+                  joined={new Date(user.date_joined).toLocaleDateString()}
+                  clerk_id={user.clerk_id}
+                  onRoleUpdated={onRoleUpdated}
                 />
               );
             })}

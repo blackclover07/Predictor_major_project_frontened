@@ -1,9 +1,75 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserFilters from "./components/UserFilters";
 import UserTable from "./components/UserTable";
 import Pagination from "./components/Pagination";
+import { getUsers } from "../services/UserService";
+import Loader from "../Components/Loader";
+
 const UserManagement = () => {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  // wfwfwefwefwe
+  const handleRoleUpdated = (clerkId, newRole) => {
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.clerk_id === clerkId ? { ...user, role: newRole } : user,
+      ),
+    );
+  };
+  // fwefwiufiuwef
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const data = await getUsers();
+
+        console.log(data);
+
+        setUsers(data);
+      } catch (err) {
+        console.error(err);
+        setError(
+          err.response?.data?.detail ||
+            err.response?.data?.message ||
+            err.message ||
+            "Failed to fetch users.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <main className="flex-grow flex items-center justify-center bg-[#090b0e]">
+        <div className="text-center">
+          <i className="ri-error-warning-line text-5xl text-red-500"></i>
+
+          <h2 className="mt-4 text-2xl font-bold text-white">
+            Something went wrong
+          </h2>
+
+          <p className="mt-2 text-gray-400">{error}</p>
+
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-6 px-5 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold transition-all"
+          >
+            Retry
+          </button>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="flex-grow min-w-0 p-4 md:p-6 lg:p-8 space-y-6 md:space-y-8">
       {/* Header goes here */}
@@ -29,7 +95,7 @@ const UserManagement = () => {
       </header>
       {/* Content goes here */}
       <UserFilters />
-      <UserTable />
+      <UserTable users={users} onRoleUpdated={handleRoleUpdated} />
       <Pagination />
     </main>
   );

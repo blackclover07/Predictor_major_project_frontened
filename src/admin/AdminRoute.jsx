@@ -16,7 +16,7 @@ export default function AdminRoute({ children }) {
     return <Loader />;
   }
 
-  if (role !== "admin" && role !== "super-admin") {
+  if (role !== "admin" && role !== "super_admin") {
     return <Navigate to="/" replace />;
   }
 
