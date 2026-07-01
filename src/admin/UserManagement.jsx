@@ -5,11 +5,13 @@ import UserTable from "./components/UserTable";
 import Pagination from "./components/Pagination";
 import { getUsers } from "../services/UserService";
 import Loader from "../Components/Loader";
+import { useAuth } from "@clerk/react-router";
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { getToken } = useAuth();
   // wfwfwefwefwe
   const handleRoleUpdated = (clerkId, newRole) => {
     setUsers((prevUsers) =>
@@ -22,7 +24,7 @@ const UserManagement = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const data = await getUsers();
+        const data = await getUsers(getToken);
 
         console.log(data);
 
@@ -44,7 +46,11 @@ const UserManagement = () => {
   }, []);
 
   if (loading) {
-    return <Loader />;
+    return (
+      <div className="flex-grow flex items-center justify-center bg-[#090b0e]">
+        <Loader />
+      </div>
+    );
   }
 
   if (error) {

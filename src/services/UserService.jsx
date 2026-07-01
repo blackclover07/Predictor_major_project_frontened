@@ -5,8 +5,13 @@ const API = axios.create({
   baseURL: "http://127.0.0.1:8000/api",
 });
 
-export const getUsers = async () => {
-  const response = await API.get("/admin/users/");
+export const getUsers = async (getToken) => {
+  const token = await getToken();
+  const response = await API.get("/admin/users/", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 };
 
