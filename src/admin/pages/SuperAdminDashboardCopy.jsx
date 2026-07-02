@@ -176,21 +176,15 @@ const SuperAdminDashboard = () => {
                   <div className="flex items-center gap-2.5">
                     <div className="h-2 w-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.6)] animate-pulse" />
                     <h3 className="text-sm font-bold uppercase tracking-wider text-gray-300 block-font">
-                      Recent Products
+                      Master Catalog Monitoring
                     </h3>
                   </div>
                   <div className="flex items-center gap-2">
-                    {/* <input
+                    <input
                       type="text"
                       placeholder="Search sku/name..."
                       className="bg-[#090b0e] border border-gray-800 px-2.5 py-1 text-[11px] rounded-lg text-gray-300 placeholder-gray-600 outline-none focus:border-blue-500/40 w-36 sm:w-44 transition-all"
-                    /> */}
-                    <Link
-                      to="products"
-                      className="text-xs text-blue-400 hover:text-blue-300"
-                    >
-                      View all
-                    </Link>
+                    />
                   </div>
                 </header>
 
@@ -217,7 +211,7 @@ const SuperAdminDashboard = () => {
                           </td>
                         </tr>
                       ) : (
-                        products.slice(0, 5).map((product) => (
+                        products.map((product) => (
                           <tr
                             key={product.id}
                             className="group hover:bg-[#12161c]/30 transition-colors"
@@ -228,16 +222,16 @@ const SuperAdminDashboard = () => {
                               </div>
                             </td>
 
-                            <td className="py-3 text-gray-400 font-medium uppercase">
+                            <td className="py-3 text-gray-400 font-medium">
                               {product.subcategory}
                             </td>
 
-                            <td className="py-3 font-mono font-bold text-gray-200 uppercase">
+                            <td className="py-3 font-mono font-bold text-gray-200">
                               {product.category}
                             </td>
 
                             <td className="py-3 text-center">
-                              <span className="text-[11px] bg-gray-800 text-gray-300 border border-gray-700/50 px-1.5 py-0.5 rounded font-mono font-semibold">
+                              <span className="text-[10px] bg-gray-800 text-gray-300 border border-gray-700/50 px-1.5 py-0.5 rounded font-mono font-semibold">
                                 {product.brand}
                               </span>
                             </td>

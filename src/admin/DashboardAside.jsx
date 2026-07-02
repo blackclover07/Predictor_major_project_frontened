@@ -61,10 +61,10 @@ const DashboardAside = () => {
 
       {/* Profile */}
       <div className="flex items-center gap-3 border-t border-gray-800/60 pt-4 px-2">
-        <div className="relative">
+        <div className="relative flex-shrink-0">
           <img
             onClick={() => setIsOpen(!open)}
-            className="w-10 h-10 rounded-full cursor-pointer border border-gray-700 object-cover"
+            className="w-10 h-10 rounded-full cursor-pointer border border-gray-700 object-cover flex-shrink-0"
             src={user?.imageUrl}
             alt="User avatar"
           />

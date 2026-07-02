@@ -12,6 +12,9 @@ const UserManagement = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { getToken } = useAuth();
+  const [search, setSearch] = useState("");
+  const [roleFilter, setRoleFilter] = useState("All Roles");
+  const [statusFilter, setStatusFilter] = useState("All Status");
   // wfwfwefwefwe
   const handleRoleUpdated = (clerkId, newRole) => {
     setUsers((prevUsers) =>
@@ -20,6 +23,19 @@ const UserManagement = () => {
       ),
     );
   };
+
+  const filteredUsers = users.filter((user) => {
+    const matchesSearch =
+      user.full_name.toLowerCase().includes(search.toLowerCase()) ||
+      user.email.toLowerCase().includes(search.toLowerCase());
+
+    const matchesRole = roleFilter === "All Roles" || user.role === roleFilter;
+
+    const matchesStatus =
+      statusFilter === "All Status" || user.status === statusFilter;
+
+    return matchesSearch && matchesRole && matchesStatus;
+  });
   // fwefwiufiuwef
   useEffect(() => {
     const fetchUsers = async () => {
@@ -100,8 +116,15 @@ const UserManagement = () => {
         </Link>
       </header>
       {/* Content goes here */}
-      <UserFilters />
-      <UserTable users={users} onRoleUpdated={handleRoleUpdated} />
+      <UserFilters
+        search={search}
+        setSearch={setSearch}
+        roleFilter={roleFilter}
+        setRoleFilter={setRoleFilter}
+        statusFilter={statusFilter}
+        setStatusFilter={setStatusFilter}
+      />
+      <UserTable users={filteredUsers} onRoleUpdated={handleRoleUpdated} />
       <Pagination />
     </main>
   );
