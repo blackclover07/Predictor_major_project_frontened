@@ -28,6 +28,7 @@ import NotFound from "./Pages/NotFound"; // Adjust this import path if you saved
 import ProtectedRoute from "./admin/ProtectedRoute";
 import UserManagement from "./admin/UserManagement";
 import Products from "./admin/components/tables/Products";
+import Reviews from "./admin/components/tables/Reviews";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -99,8 +100,12 @@ const App = () => {
               element: <UserManagement />,
             },
             {
-              path:"products",
-              element:<Products/>
+              path: "products",
+              element: <Products />,
+            },
+            {
+              path: "reviews",
+              element: <Reviews />,
             },
             {
               path: "*",

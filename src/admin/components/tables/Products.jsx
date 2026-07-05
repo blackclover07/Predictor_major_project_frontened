@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { getProducts } from "../../../services/ProductService";
+import Pagination from "../Pagination";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const [next, setNext] = useState(null);
+  const [previous, setPrevious] = useState(null);
+
+  const PAGE_SIZE = 20;
+  const totalPages = Math.ceil(count / PAGE_SIZE);
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
@@ -21,24 +30,29 @@ const Products = () => {
     setStatus("");
 
     // Fetch latest products
-    await fetchProducts();
+    await fetchProducts(1);
+  };
+
+  const fetchProducts = async (page = 1) => {
+    try {
+      setLoading(true);
+
+      const data = await getProducts(page);
+
+      setProducts(data.results ?? []);
+      setCount(data.count);
+      setNext(data.next);
+      setPrevious(data.previous);
+      setCurrentPage(page);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-
-        const data = await getProducts();
-
-        setProducts(data);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
+    fetchProducts(1);
   }, []);
 
   useEffect(() => {
@@ -168,15 +182,43 @@ const Products = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={5} className="text-center py-8 text-gray-400">
-                  Loading Products...
+                <td colSpan={5} className="py-16">
+                  <div className="flex flex-col items-center justify-center">
+                    <i className="ri-archive-stack-line text-5xl text-emerald-400 animate-bounce"></i>
+
+                    <h3 className="mt-4 text-lg font-semibold text-white">
+                      Preparing Inventory
+                    </h3>
+
+                    <p className="mt-2 text-sm text-gray-500">
+                      Loading product information from connected stores...
+                    </p>
+                  </div>
                 </td>
               </tr>
             ) : filteredProducts.length === 0 ? (
               <tr>
-                <td colSpan={5} className="text-center py-8 text-gray-400">
-                  📦 No products matched your filters. Try changing the search
-                  or filters.
+                <td colSpan={5} className="py-16">
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <i className="ri-box-3-line text-6xl text-emerald-400 mb-4 animate-pulse"></i>
+
+                    <h3 className="text-lg font-semibold text-gray-200">
+                      No Products Found
+                    </h3>
+
+                    <p className="text-sm text-gray-500 mt-2 max-w-md">
+                      We couldn't find any products matching your current search
+                      or filters.
+                    </p>
+
+                    <button
+                      onClick={handleRefresh}
+                      className="mt-6 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 transition font-medium"
+                    >
+                      <i className="ri-refresh-line mr-2"></i>
+                      Reset Filters
+                    </button>
+                  </div>
                 </td>
               </tr>
             ) : (
@@ -200,7 +242,9 @@ const Products = () => {
                   <td className="p-4 text-center">
                     <span
                       className={`inline-block w-3 h-3 rounded-full ${
-                        product.is_active ? "bg-green-400" : "bg-red-400"
+                        product.is_active
+                          ? "bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"
+                          : "bg-red-400 shadow-[0_0_8px_rgba(248,113,113,0.8)]"
                       }`}
                     />
                   </td>
@@ -210,6 +254,13 @@ const Products = () => {
           </tbody>
         </table>
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        previous={previous}
+        next={next}
+        onPageChange={fetchProducts}
+      />
     </div>
   );
 };

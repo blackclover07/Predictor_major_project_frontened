@@ -21,7 +21,7 @@ const Services = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUnavailable, setIsUnavailable] = useState(false);
 
-  const API_URL = "http://127.0.0.1:8000/api/products/";
+  const API_URL = "http://127.0.0.1:8000/api/products/options";
 
   // Compiles product array into unique selection tiers
   const parseInventoryData = (rawData) => {

@@ -48,6 +48,20 @@ const DashboardAside = () => {
             <i className="ri-team-line text-lg group-hover:text-blue-400"></i>
             User Management
           </Link>
+          <Link
+            to="products"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-[#15191f] border border-transparent text-sm font-medium transition-all group"
+          >
+            <i className="ri-box-3-line text-lg group-hover:text-blue-400"></i>
+            Products
+          </Link>
+          <Link
+            to="reviews"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-[#15191f] border border-transparent text-sm font-medium transition-all group"
+          >
+            <i className="ri-feedback-line text-lg group-hover:text-blue-400"></i>
+            Reviews
+          </Link>
 
           <Link
             to="/admin-dashboard/addAdmin"

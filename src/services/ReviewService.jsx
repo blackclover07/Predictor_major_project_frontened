@@ -5,7 +5,7 @@ const API = axios.create({
   baseURL: "http://127.0.0.1:8000/api",
 });
 
-export const getProducts = async (page = 1) => {
-  const response = await API.get(`/products/?page=${page}`);
+export const getReviews = async (page = 1) => {
+  const response = await API.get(`/reviews/?page=${page}`);
   return response.data;
 };

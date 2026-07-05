@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getProducts } from "../services/ProductService";
 import { tr } from "framer-motion/client";
 
@@ -50,7 +50,7 @@ const SuperAdminDashboard = () => {
       try {
         const data = await getProducts();
         console.log(data);
-        setProducts(data);
+        setProducts(data.results ?? []);
       } catch (error) {
         console.error(error);
       } finally {
@@ -170,7 +170,7 @@ const SuperAdminDashboard = () => {
           {/* Workspace Central Core Grid System */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start w-full">
             {/* SECTION B: GLOBAL PRODUCT LISTS MATRIX (Spans 7 Columns) */}
-            <div className="lg:col-span-7 bg-[#0f1216] border border-gray-800/60 rounded-3xl p-5 shadow-2xl relative overflow-hidden backdrop-blur-md min-h-[460px] flex flex-col justify-between">
+            <div className="lg:col-span-7 bg-[#0f1216] border border-gray-800/60 rounded-3xl p-5 shadow-2xl relative overflow-hidden backdrop-blur-md  flex flex-col justify-between">
               <div className="w-full">
                 <header className="flex items-center justify-between border-b border-gray-800/50 pb-4 mb-4">
                   <div className="flex items-center gap-2.5">
@@ -179,7 +179,7 @@ const SuperAdminDashboard = () => {
                       Recent Products
                     </h3>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-baseline gap-2">
                     {/* <input
                       type="text"
                       placeholder="Search sku/name..."
@@ -187,9 +187,10 @@ const SuperAdminDashboard = () => {
                     /> */}
                     <Link
                       to="products"
-                      className="text-xs text-blue-400 hover:text-blue-300"
+                      className="flex items-center gap-1 text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors"
                     >
                       View all
+                      <i className="ri-external-link-line text-sm"></i>
                     </Link>
                   </div>
                 </header>
@@ -209,11 +210,30 @@ const SuperAdminDashboard = () => {
                     <tbody className="divide-y divide-gray-900 text-xs">
                       {loading ? (
                         <tr>
-                          <td
-                            colSpan={5}
-                            className="py-6 text-center text-gray-500"
-                          >
-                            Loading Products...
+                          <td colSpan={5} className="py-8">
+                            <div className="flex flex-col items-center justify-center">
+                              <i className="ri-loop-right-line text-cyan-400 animate-spin text-4xl"></i>
+                              <p className="mt-3 text-gray-500 text-sm">
+                                Loading products...
+                              </p>
+                            </div>
+                          </td>
+                        </tr>
+                      ) : products.length === 0 ? (
+                        <tr>
+                          <td colSpan={5} className="py-12">
+                            <div className="flex flex-col items-center justify-center text-center">
+                              <i className="ri-inbox-line text-5xl text-cyan-400 mb-3 animate-bounce"></i>
+
+                              <h3 className="text-sm font-semibold text-gray-300">
+                                No Products Available
+                              </h3>
+
+                              <p className="mt-1 text-xs text-gray-500">
+                                Products will appear here once they are
+                                synchronized.
+                              </p>
+                            </div>
                           </td>
                         </tr>
                       ) : (

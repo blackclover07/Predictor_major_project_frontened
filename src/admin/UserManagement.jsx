@@ -63,8 +63,16 @@ const UserManagement = () => {
 
   if (loading) {
     return (
-      <div className="flex-grow flex items-center justify-center bg-[#090b0e]">
-        <Loader />
+      <div className="flex flex-col items-center justify-center py-20 min-h-screen w-full">
+        <i className="ri-team-line text-5xl text-violet-400 animate-bounce"></i>
+
+        <h3 className="mt-4 text-lg font-semibold text-white">
+          Loading User Directory
+        </h3>
+
+        <p className="mt-2 text-sm text-gray-500 text-center max-w-md">
+          Synchronizing user accounts and access permissions...
+        </p>
       </div>
     );
   }
