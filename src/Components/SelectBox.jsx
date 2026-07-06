@@ -5,7 +5,7 @@ const SelectBox = ({
   options = [],
   value,
   onChange,
-  width = "w-90",
+  width = "w-full",
 }) => {
   return (
     <div className="flex flex-col p-2 capitalize w-full">

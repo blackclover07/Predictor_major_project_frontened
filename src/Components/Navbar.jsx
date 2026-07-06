@@ -30,7 +30,7 @@ const Navbar = () => {
             { path: "/about", label: "About", icon: "ri-feedback-fill" },
             { path: "/teams", label: "Teams", icon: "ri-team-line" },
             {
-              path: "/services",
+              path: "/ranking",
               label: "Services",
               icon: "ri-line-chart-line",
             },

@@ -29,6 +29,7 @@ import ProtectedRoute from "./admin/ProtectedRoute";
 import UserManagement from "./admin/UserManagement";
 import Products from "./admin/components/tables/Products";
 import Reviews from "./admin/components/tables/Reviews";
+import EshopRanking from "./Pages/EshopRanking";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -61,6 +62,7 @@ const App = () => {
             { index: true, element: <Home /> },
             { path: "about", element: <About /> },
             { path: "teams", element: <Teams /> },
+            { path: "ranking", element: <EshopRanking /> },
             { path: "services", element: <Services /> },
             { path: "pricing", element: <Pricing /> },
             { path: "user-profile", element: <Profile /> },
