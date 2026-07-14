@@ -77,7 +77,7 @@ const Teams = () => {
           <div className="col-span-1 lg:col-span-4 flex justify-center">
             <div className="h-56 w-56 sm:h-60 sm:w-60 rounded-2xl overflow-hidden bg-gray-900 border border-gray-800/60 shadow-lg group-hover:border-amber-500/30 transition-colors duration-300">
               <img
-                src="https://storage.googleapis.com/pictographic/thumbnails/lined/SXZGFGDYWdXmjPSvoC0y.png"
+                src="/images/hod.jpeg"
                 alt="Prof. Inadyuti Dutt"
                 className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500"
               />
@@ -130,31 +130,31 @@ const Teams = () => {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center w-full"
         >
           <TeamCard
-            m_img="https://storage.googleapis.com/pictographic/thumbnails/flat-modern/2vFGAAfCuatQhKHWN94y.png"
+            m_img="/images/sagar.jpeg"
             m_name="Sagar Dey"
             m_role="Backend - Selecting Model, Sentiment Analysis, and Server building"
             m_mail="" m_facebook="" m_linkdin="" m_git=""
           />
           <TeamCard 
-            m_img="https://storage.googleapis.com/pictographic/thumbnails/flat-modern/6nrnFehNwrEMOmHKrIYn.png"
+            m_img="/images/corporate.jpg"
             m_name="Subhankar Pal"
             m_role="Collecting Datasets, Data Pre-processing, and Project coordinating"
             m_mail="" m_facebook="" m_linkdin="" m_git=""
           />
           <TeamCard 
-            m_img="https://storage.googleapis.com/pictographic/thumbnails/purple/Rz7Fvlcn41WMS58QCSA5.png"
+            m_img="/images/rohan.jpg"
             m_name="Rohan Hazra"
             m_role="Frontend - Building UI and Connecting Backend to Frontend Architecture"
             m_mail="" m_facebook="" m_linkdin="" m_git=""
           />
           <TeamCard 
-            m_img="https://storage.googleapis.com/pictographic/thumbnails/flat-modern/mT1G4HZD0PiFB8R8TD1C.png"
+            m_img="/images/suraj.jpg"
             m_name="Suraj Yadav"
             m_role="Dataset Scraping, Data Pre-processing, UI assembly, and API hook binding"
             m_mail="" m_facebook="" m_linkdin="" m_git=""
           />
           <TeamCard 
-            m_img="https://storage.googleapis.com/pictographic/thumbnails/purple/T3MPJbTxD4Qc9GJomNVO.png"
+            m_img="/images/sukumar_new.jpg"
             m_name="Sukumar Mondal"
             m_role="UI Refinement, Full-stack integration links, Amazon content scraping pipelines"
             m_mail="" m_facebook="" m_linkdin="" m_git=""

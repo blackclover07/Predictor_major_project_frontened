@@ -39,9 +39,11 @@ const Footer = () => {
                 className="bg-amber-50 p-2 h-11 w-50 rounded lg:w-70"
                 placeholder="Enter Email"
               />
-              <button className="bg-red-400 text-white m-2 rounded p-2.5 uppercase">
-                Sign up
-              </button>
+              <Link to="/signup/">
+                <button className="bg-red-400 text-white m-2 rounded p-2.5 uppercase">
+                  Sign up
+                </button>
+              </Link>
             </form>
           </div>
         </div>

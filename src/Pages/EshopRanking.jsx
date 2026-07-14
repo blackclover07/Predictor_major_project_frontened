@@ -6,10 +6,11 @@ import useProductConfigurator from "../hooks/useProductConfigurator";
 import RankingCard from "../Components/rankings/RankingCard";
 
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@clerk/react-router";
 
 const EshopRanking = () => {
   const navigate = useNavigate();
-
+  const { isSignedIn } = useAuth();
   const {
     category,
     setCategory,
@@ -100,14 +101,25 @@ const EshopRanking = () => {
             {rankings.length > 0 && (
               <div className="flex justify-center mt-6">
                 <button
-                  onClick={() =>
+                  onClick={() => {
+                    if (!isSignedIn) {
+                      navigate("/login");
+                      return;
+                    }
+
                     navigate("/services", {
                       state: { productName, price },
-                    })
-                  }
-                  className="px-6 py-3 bg-blue-600 rounded-xl font-semibold hover:bg-blue-500 transition"
+                    });
+                  }}
+                  className={`px-6 py-3 rounded-xl font-semibold transition flex items-center gap-2
+                      ${
+                        isSignedIn
+                          ? "bg-blue-600 hover:bg-blue-500"
+                          : "bg-gray-700 text-gray-400 opacity-60"
+                      }`}
                 >
-                  View Extended Analytics →
+                  {!isSignedIn && <span>🔒</span>}
+                  View Extended Analytics
                 </button>
               </div>
             )}

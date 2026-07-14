@@ -4,28 +4,30 @@ import ChartCard from "./ChartCard";
 
 const PriceChart = ({ data: apiData }) => {
   const priceList = apiData?.price_listing || [];
-
-  const amazonData = priceList.find(
-    (item) => item.source?.toLowerCase() === "amazon",
-  );
-  const flipkartData = priceList.find(
-    (item) => item.source?.toLowerCase() === "flipkart",
-  );
-  const amazonPrice = amazonData ? parseFloat(amazonData.price) : 0;
-  const flipkartPrice = flipkartData ? parseFloat(flipkartData.price) : 0;
-  const chartLabels = ["Amazon Quote", "Flipkart Quote"];
-  const chartValues = [amazonPrice, flipkartPrice];
-
+  const chartLabels = priceList.map((item) => item.source);
+  const chartValues = priceList.map((item) => parseFloat(item.price));
+  const colors = [
+    "#3B82F6", // Blue
+    "#10B981", // Emerald
+    "#F59E0B", // Amber
+    "#8B5CF6", // Violet
+    "#EC4899", // Pink
+    "#06B6D4", // Cyan
+    "#EF4444", // Red
+    "#84CC16", // Lime
+    "#F97316", // Orange
+    "#14B8A6", // Teal
+    "#6366F1", // Indigo
+    "#A855F7", // Purple
+    "#EAB308", // Yellow
+  ];
   const data = {
     labels: chartLabels,
     datasets: [
       {
         label: "Price Value (₹)",
         data: chartValues,
-        backgroundColor: [
-          "#22c55e", // Green (Amazon)
-          "#f59e0b", // Amber (Flipkart)
-        ],
+        backgroundColor: chartLabels.map((_, i) => colors[i % colors.length]),
         borderRadius: 8,
       },
     ],
@@ -71,18 +73,33 @@ const PriceChart = ({ data: apiData }) => {
         <Bar data={data} options={options} />
       </div>
 
-      {/* Dynamic Price Comparison Labels (Side-by-Side) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-        <div className="bg-[#0d0f12]/60 border border-gray-800/40 rounded-lg text-center p-2 text-sm font-semibold text-emerald-400">
-          Amazon: ₹{amazonPrice.toLocaleString()}
-        </div>
-        <div className="bg-[#0d0f12]/60 border border-gray-800/40 rounded-lg text-center p-2 text-sm font-semibold text-amber-400">
-          Flipkart: ₹{flipkartPrice.toLocaleString()}
-        </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-5">
+        {priceList.map((shop, index) => (
+          <div
+            key={shop.source}
+            className="bg-[#0d0f12]/70 border border-gray-800 rounded-xl p-3"
+          >
+            <div className="flex justify-between items-center">
+              <span
+                className="w-3 h-3 rounded-full"
+                style={{
+                  backgroundColor: colors[index % colors.length],
+                }}
+              />
+
+              <span className="text-xs uppercase text-gray-500">
+                {shop.source}
+              </span>
+            </div>
+
+            <h3 className="mt-3 text-lg font-bold text-white">
+              ₹{Number(shop.price).toLocaleString()}
+            </h3>
+          </div>
+        ))}
       </div>
     </ChartCard>
   );
 };
 
 export default PriceChart;
- 

@@ -6,59 +6,66 @@ const ReliabilityChart = ({ data: apiData }) => {
   const reviewsList = apiData?.reviews || [];
 
   // Group real-time telemetry by ecommerce platform channels
-  const amazonReviews = reviewsList.filter((r) => r.source === "amazon");
-  const flipkartReviews = reviewsList.filter((r) => r.source === "flipkart");
+  const grouPed = reviewsList.reduce((acc, review) => {
+    if (!acc[review.source]) {
+      acc[review.source] = {
+        total: 0,
+        fake: 0,
+        genuine: 0,
+      };
+    }
 
-  // Isolate legitimate vectors (where is_fake is explicitly false or score is clean)
-  const cleanAmazon = amazonReviews.filter(
-    (r) => !r.is_fake && r.fake_score <= 0.9,
-  ).length;
-  const cleanFlipkart = flipkartReviews.filter(
-    (r) => !r.is_fake && r.fake_score <= 0.9,
-  ).length;
+    acc[review.source].total++;
 
-  // Calculate percentages dynamically (default to 100% if platform has no reviews yet)
-  const amazonScore =
-    amazonReviews.length > 0
-      ? Math.round((cleanAmazon / amazonReviews.length) * 100)
-      : 100;
+    if (review.is_fake) {
+      acc[review.source].fake++;
+    } else {
+      acc[review.source].genuine++;
+    }
+    return acc;
+  }, {});
 
-  const flipkartScore =
-    flipkartReviews.length > 0
-      ? Math.round((cleanFlipkart / flipkartReviews.length) * 100)
-      : 100;
+  const chartData = Object.entries(grouPed).map(([shop, stats]) => ({
+    shop,
+    fake: stats.fake,
+    genuine: stats.genuine,
+    total: stats.total,
+    authenticity: Math.round((stats.genuine / stats.total) * 100),
+  }));
 
-  // Render the horizontal bar chart values
+  chartData.sort((a, b) => b.total - a.total);
+  const labels = chartData.map((item) => item.shop.toUpperCase());
+
   const data = {
-    labels: ["Amazon India", "Flipkart Market"],
+    labels,
     datasets: [
       {
-        label: "Data Integrity Index (%)",
-        data: [amazonScore, flipkartScore],
-        backgroundColor: [
-          amazonScore > 75
-            ? "#22c55e"
-            : amazonScore > 40
-              ? "#f59e0b"
-              : "#ef4444", // Dynamic colors based on safety thresholds
-          flipkartScore > 75
-            ? "#2563eb"
-            : flipkartScore > 40
-              ? "#a855f7"
-              : "#ef4444",
-        ],
-        borderRadius: 6,
-        barThickness: 24,
+        label: "Genuine",
+        data: chartData.map((item) => item.genuine),
+        backgroundColor: "#22c55e",
+        borderRadius: 5,
+      },
+      {
+        label: "Fake",
+        data: chartData.map((item) => item.fake),
+        backgroundColor: "#ef4444",
+        borderRadius: 5,
       },
     ],
   };
-
   const options = {
     indexAxis: "y",
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: false },
+      legend: {
+        display: true,
+        labels: {
+          color: "#94a3b8",
+          usePointStyle: true,
+          pointStyle: "circle",
+        },
+      },
     },
     layout: {
       // Adds breathing room on the left side for long labels
@@ -69,11 +76,11 @@ const ReliabilityChart = ({ data: apiData }) => {
     },
     scales: {
       x: {
+        stacked: true,
         beginAtZero: true,
-        max: 100,
         ticks: {
           color: "#9ca3af",
-          callback: (value) => value + "%",
+          callback: (value) => value,
         },
         grid: {
           color: "rgba(75, 85, 99, 0.15)",
@@ -81,8 +88,9 @@ const ReliabilityChart = ({ data: apiData }) => {
         },
       },
       y: {
+        stacked: true,
         ticks: {
-          color: "#e5e7eb",
+          color: "#94a3b8",
           font: { weight: "bold" },
         },
         grid: { display: false },
@@ -91,17 +99,39 @@ const ReliabilityChart = ({ data: apiData }) => {
   };
 
   return (
-    <ChartCard title="E-Shop Reliability " icon={<span>🛡️</span>}>
-      <div className="h-56">
-        <Bar data={data} options={options} />
-      </div>
+    <ChartCard title="Review Authenticity Analysis" icon={<span>🛡️</span>}>
+      <div
+        className="overflow-y-auto"
+        style={{
+          maxHeight: "650px",
+        }}
+      >
+        <div
+          style={{
+            height: `${chartData.length * 38}px`,
+            minHeight: "300px",
+          }}
+        >
+          <Bar data={data} options={options} />
+        </div>
+        <div className="mt-5 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
+          {chartData.map((item) => (
+            <div
+              key={item.shop}
+              className="rounded-xl border border-gray-800 bg-[#0d0f12] p-4"
+            >
+              <p className="text-xs uppercase tracking-wider text-gray-500">
+                {item.shop}
+              </p>
 
-      <div className="mt-4 p-3 bg-[#0d0f12]/50 border border-gray-800/60 rounded-xl flex items-center justify-between text-xs text-gray-800 font-mono">
-        <span>Verified Vectors:</span>
-        <span className="text-gray-800">
-          Amzn ({cleanAmazon}/{amazonReviews.length}) • Fk ({cleanFlipkart}/
-          {flipkartReviews.length})
-        </span>
+              <h2 className="mt-2 text-3xl font-bold text-white">
+                {item.total}
+              </h2>
+
+              <p className="text-sm text-gray-400">Reviews</p>
+            </div>
+          ))}
+        </div>
       </div>
     </ChartCard>
   );

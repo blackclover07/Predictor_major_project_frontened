@@ -14,7 +14,7 @@ const Home_banner1 = () => {
           Smart Shopping <br /> Starts Here.....
         </motion.h1>
         <motion.div className="flex justify-end flex-col items-end gap-4" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay:0.3}}>
-          <Link to="/services">
+          <Link to="/ranking">
             <Button1 buttonText="Predict Now!"/>
           </Link>
           <p className="text-white text-lg w-80 lg:w-90 text-right">Your personalized e-shop advisory system for smarter, safer, and value-driven purchases.</p>
